@@ -15,24 +15,6 @@ void delay(int s, int n) {
 	while (nanosleep(&period, &period)) { }
 }
 
-/**
- * Reads temperatures out of a MLX90614 IR thermometer.
- * @pre   The file descriptor @a smbusfd is already open and the slave address
- *        has been configured.
- * @post  @a smbusfd will remain open.
- * @param smbusfd   The file descriptor to use for communication.
- * @param num       The number of temperatures to read. Some devices in the
- *                  MLX90614 family have three temperatures, but most have two.
- * @param temps     The array that will accept the temperatures. The values
- *                  are in Kelvin and no noise reduction algorithm is applied
- *                  here. However, the device may be configured to apply noise
- *                  reduction. Only @a num values are written. The values are:
- *                   -# Ambient temperature
- *                   -# Object 1 temperature
- *                   -# Object 2 temperature
- * @return  Zero on success, non-zero on failure.
- * @author  Jeff Jackowski
- */
 int MLX90614_read(int smbusfd, int num, double *temps) {
 	union i2c_smbus_data msg;
 	struct i2c_smbus_ioctl_data sdat = {
